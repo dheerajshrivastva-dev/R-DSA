@@ -1,0 +1,29 @@
+{
+  "editor.quickSuggestions": {
+    "other": "off",
+    "comments": "off",
+    "strings": "off"
+  },
+  "editor.suggestOnTriggerCharacters": false,
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.tabCompletion": "off",
+  "editor.wordBasedSuggestions": "off",
+  "editor.parameterHints.enabled": false,
+  "editor.hover.enabled": false,
+  "editor.inlineSuggest.enabled": false,
+  "editor.snippetSuggestions": "none",
+  "editor.suggest.showKeywords": false,
+  "editor.suggest.showSnippets": false,
+  "editor.suggest.showClasses": false,
+  "editor.suggest.showFunctions": false,
+  "editor.suggest.showVariables": false,
+  "editor.suggest.showModules": false,
+  "editor.suggest.showProperties": false,
+  "editor.suggest.showMethods": false,
+  "editor.suggest.showReferences": false,
+  "editor.suggest.showWords": false,
+  "github.copilot.editor.enableAutoCompletions": false,
+  "editor.occurrencesHighlight": "singleFile",
+  "editor.selectionHighlight": true,
+  "editor.semanticHighlighting.enabled": true
+}
