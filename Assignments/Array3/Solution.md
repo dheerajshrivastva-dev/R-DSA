@@ -73,3 +73,58 @@ class Solution {
 }
 
 ```
+
+## 1480. Running Sum of 1d Array [Link](https://leetcode.com/problems/running-sum-of-1d-array/description/)
+
+``` java
+
+class Solution {
+    public int[] runningSum(int[] nums) {
+        int ps = 0;
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = nums[i] + ps;
+            ps = nums[i];
+        }
+        return nums;
+    }
+}
+
+```
+
+## 414. Third Maximum Number [Link](https://leetcode.com/problems/third-maximum-number/description/)
+
+``` java
+
+class Solution {
+    public int thirdMax(int[] nums) {
+        int[] max = new int[] {Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE};
+        int c = 0;
+        Boolean b = false;
+        for (int i = 0; i < 3; i++) {
+            b = false;
+            for (int j = 0; j < nums.length; j++) {
+                if(i == 0) {    
+                    if(nums[j] > max[i])
+                        max[i] = nums[j];
+                } else {
+                    if(nums[j] >= max[i] && nums[j] < max[i-1]) {
+                        // System.out.println(j + " " + i + " : "+ c);
+                        max[i] = nums[j];
+                        b = true;
+                    }
+                }
+            }
+            if(b) {
+                c++;
+            }
+        }
+
+        if (c < 2) {
+            return max[0];
+        } else {
+            return max[2];
+        }
+    }
+}
+
+```
