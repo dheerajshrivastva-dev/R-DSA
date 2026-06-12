@@ -143,3 +143,291 @@ class Solution {
 }
 
 ```
+
+## 303. Range Sum Query - Immutable [link](https://leetcode.com/problems/range-sum-query-immutable/description/)
+
+``` java
+
+class NumArray {
+    int [] arr;
+    public NumArray(int[] nums) {
+        this.arr = nums;
+    }
+    
+    public int sumRange(int left, int right) {
+        int ans = 0;
+        while(left <= right) {
+            ans += this.arr[left++];
+        }
+        return ans;
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * int param_1 = obj.sumRange(left,right);
+ */
+
+ // optimise sol 2
+ 
+ class NumArray {
+    int [] arr;
+    public NumArray(int[] nums) {
+        this.arr = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            int prev = i > 0 ? this.arr[i-1] : 0; 
+            this.arr[i] = nums[i] + prev;
+        }
+    }
+    
+    public int sumRange(int left, int right) {
+        int prev = left > 0 ? this.arr[left-1] : 0;
+        
+        return this.arr[right] - prev;
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * int param_1 = obj.sumRange(left,right);
+ */
+
+```
+
+## 304. Range Sum Query 2D - Immutable [link](https://leetcode.com/problems/range-sum-query-2d-immutable/description/)
+
+``` java
+
+class NumMatrix {
+    int[][] mat;
+    public NumMatrix(int[][] matrix) {
+        this.mat = new int[matrix.length][matrix[0].length];
+        for(int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                int prev  = j > 0 ? this.mat[i][j-1] : 0;
+                this.mat[i][j] = matrix[i][j] + prev;
+            }
+        }
+    }
+    
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+        int ans = 0;
+        for (int i = row1; i <= row2; i++) {
+            int prev = col1 > 0 ? this.mat[i][col1-1] : 0;
+            ans += this.mat[i][col2] - prev;
+        }
+        return ans;
+    }
+}
+
+/**
+ * Your NumMatrix object will be instantiated and called as such:
+ * NumMatrix obj = new NumMatrix(matrix);
+ * int param_1 = obj.sumRegion(row1,col1,row2,col2);
+ */
+
+```
+
+## 27. Remove Element [link](https://leetcode.com/problems/remove-element/description/)
+
+``` java
+
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        // two pointers
+        // start will check if its target if yes swap with last one and decrease last
+        int i = 0; 
+        int j = nums.length -1;
+
+        while(i <= j) {
+            if(nums[i] == val) {
+                swap(nums, i, j);
+                j--;
+            } else {
+                i++;
+            }
+        }
+        return i;
+    }
+    static void swap(int[] arr, int i, int j){
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j ] = temp;
+    }
+}
+
+```
+
+## 349. Intersection of Two Arrays [link](https://leetcode.com/problems/intersection-of-two-arrays/description/)
+
+``` java
+
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Set<Integer> set = new HashSet<>();
+        for(int i = 0; i < nums1.length; i++) {
+            set.add(nums1[i]);
+        }
+        List<Integer> ans = new ArrayList<>();
+
+        for(int i = 0; i < nums2.length; i++) {
+            if(set.contains(nums2[i])) {
+                ans.add(nums2[i]);
+                set.remove(nums2[i]);
+            }
+        }
+        int[] typeAns = new int[ans.size()];
+        int c = 0;
+        for(int a : ans) {
+            typeAns[c] = a;
+            c++;
+        }
+        return typeAns;
+    }
+}
+
+```
+## 350. Intersection of Two Arrays II [link](https://leetcode.com/problems/intersection-of-two-arrays-ii/description/)
+
+``` Java
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < nums1.length; i++) {
+            map.put(nums1[i], map.getOrDefault(nums1[i], 0) + 1);
+        }
+        List<Integer> ans = new ArrayList<>();
+
+        for(int i = 0; i < nums2.length; i++) {
+            if(map.getOrDefault(nums2[i], 0) > 0) {
+                ans.add(nums2[i]);
+                map.put(nums2[i], map.get(nums2[i]) - 1);
+            }
+        }
+        int[] typeAns = new int[ans.size()];
+        int c = 0;
+        for(int a : ans) {
+            typeAns[c] = a;
+            c++;
+        }
+        return typeAns;
+    }
+}
+```
+
+## 496. Next Greater Element I [link](https://leetcode.com/problems/next-greater-element-i/description/)
+
+``` Java
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        int[] ans = new int[nums1.length];
+
+        for (int i = 0; i < nums1.length; i++) {
+            int catchIndex = -1;
+            ans[i] = -1;
+
+            for (int j = 0; j < nums2.length; j++) {
+                if(nums1[i] == nums2[j] && catchIndex == -1) {
+                    // lets find next in nums2 which is greater than nums[j]
+                    catchIndex = j;
+                } else if (catchIndex != -1) {
+                    // we have found j
+                    if (nums2[catchIndex] < nums2[j]) {
+                        ans[i] = nums2[j];
+                        break;
+                    }
+                }
+            }
+            
+        }
+        return ans;
+    }
+}
+```
+
+## 503. Next Greater Element II [link](https://leetcode.com/problems/next-greater-element-ii/)
+
+``` java
+
+// [1,2,3,4,3]
+
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        int n = nums.length;
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            ans[i] = -1;
+            for (int j = 1; j < n; j++) {
+                int next = (i + j) % n;
+                if (nums[next] > nums[i]) {
+                    ans[i] = nums[next];
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+}
+
+
+
+```
+
+## 556. Next Greater Element III [link](https://leetcode.com/problems/next-greater-element-iii/description/)
+
+``` java
+
+class Solution {
+    public int nextGreaterElement(int n) {
+        long ans = (long)n;
+        // Logic is here to traverse number digit from 0 - 10 - 100 and so on unit digit to next and if any current didgit is less than prev we got out target -> because if we replace this with any prev value that is just bigger than this and sort other digit we will have our ans.
+        // n = 12387532
+        // here if we traverse
+        // 12 3 and 8 here we notice first decrease
+        // now we have to find greter or equal to 3+1=4
+        // if we check there is only 5
+        // so answer => 12*10+5 = 125 then sort [8,7,6,3,2]
+        // so ans = 125 23678 is the correct answer
+
+        // add freq of all number for record how many time whose, and in this we have digits sorted because of index
+        int[] digitFreq = new int[10];
+        
+        int lastDigit = -1;
+        int currentDigit = -1;
+
+
+        while(ans > 0) {
+            currentDigit = (int)ans%10;
+            ans = ans/10;
+            digitFreq[currentDigit] ++;
+            if(lastDigit > currentDigit) {
+
+                int target = currentDigit + 1;
+                while(digitFreq[target] == 0) target++; // this will stop if found else will keep increasing one by one and will find because we has bigger before at leat lastDigit
+
+                ans = ans * 10 + target;
+                digitFreq[target]--;
+
+                // sort remaining and add it
+                for (int d = 0; d < 10; d++) {
+                    while(digitFreq[d] > 0) {
+                        ans = ans * 10 + d;
+                        digitFreq[d]--;
+                    }
+                }
+                if (ans <= Integer.MAX_VALUE) {
+                    return (int)ans;
+                } else {
+                    return -1;
+                }
+
+            }
+            lastDigit = currentDigit;
+        }
+        return -1;
+    }
+}
+
+```
