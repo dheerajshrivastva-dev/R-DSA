@@ -23,6 +23,27 @@ class Solution {
     }
 }
 
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int [] ans = new int[2];
+
+        Map<Integer, Integer> hash = new HashMap<>();
+
+
+        for(int i = 0; i < nums.length; i++) {
+            int second = target - nums[i];
+            if(hash.containsKey(second)) {
+                int val = hash.get(second);
+                return new int[] {val, i};
+            } else {
+                hash.put(nums[i], i);
+            }
+        }
+        return ans;
+    }
+}
+
+
 ```
 
 ##  167. Two Sum II - Input Array Is Sorted - [Link](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/)
@@ -393,12 +414,39 @@ class Solution {
     }
 }
 
+// workign solution
+
+// Note - Go to future then take care of past
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int profitMax = 0;
+        int minBuy = prices[0];
+        for (int i = 1; i < prices.length; i++) {
+            profitMax = Math.max(profitMax, prices[i] - minBuy);
+            minBuy = Math.min(minBuy, prices[i]);
+        }
+        return profitMax;
+    }
+}
+
 ```
 
-## 122. Best Time to Buy and Sell Stock II
+## 122. Best Time to Buy and Sell Stock II [link](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
 ``` java
 
-// not attempted because 1st is not completed
+class Solution {
+    public int maxProfit(int[] prices) {
+        int profit = 0;
+
+        for(int i = 1; i < prices.length; i++) {
+            if(prices[i] > prices[i-1]) {
+                profit += prices[i] - prices[i-1];
+            }
+        }
+        return profit;
+    }
+}
 
 ```
