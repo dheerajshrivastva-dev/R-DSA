@@ -431,3 +431,95 @@ class Solution {
 }
 
 ```
+
+## 1366. Rank Teams by Votes [link](https://leetcode.com/problems/rank-teams-by-votes/description/)
+
+``` java
+// after doubt class 15th june 2026
+class Solution {
+    public String rankTeams(String[] votes) {
+        // lets create freq matrix 26*total team 0,25
+        // will record rank or all letters by makeing n-index as place value
+        // sort will make rearrenge
+        // ["WXYZ","XYZW"]
+        //[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,3,2,1]
+        //[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,3,2]
+        // int[] freq = new int[26];
+        int[][] mat = new int[26][votes[0].length()+1];
+
+        for(int i = 0; i < votes.length; i++) {
+            String vote = votes[i]; // vote
+            for(int j = 1; j <= vote.length(); j++) {
+                char team = vote.charAt(j-1);
+                mat[team-'A'][0] = team;
+                mat[team-'A'][j] ++;
+            }
+        }
+        // System.out.println(Arrays.deepToString(mat));
+
+        Arrays.sort(mat, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] a, int[] b) {
+                for(int i = 1; i<= votes[0].length(); i++) {
+                    if(a[i] > b[i]) {
+                        return -1;
+                    }
+                    if(b[i] > a[i]) {
+                        return 1;
+                    }
+                }
+                return 1;
+            }
+        });
+        // System.out.println(Arrays.deepToString(mat));
+
+        char[] ansArr = new char[votes[0].length()];
+
+        for(int i = 0; i < votes[0].length(); i++) {
+            ansArr[i]= (char)mat[i][0];
+        }
+
+        return new String(ansArr);
+    }
+}
+
+```
+
+## 1338. Reduce Array Size to The Half [link](https://leetcode.com/problems/reduce-array-size-to-the-half/description/)
+
+``` java
+
+// After doubt class 15th june 2026
+
+class Solution {
+    public int minSetSize(int[] arr) {
+        List<Integer> keys = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for(int i = 0; i < arr.length; i++) {
+            map.put(arr[i], map.getOrDefault(arr[i], 0)+1);
+        }
+
+        for(int i = 0; i < arr.length; i++) {
+            if(map.containsKey(arr[i])) {
+                keys.add(map.get(arr[i]));
+                map.remove(arr[i]);
+            }
+        }
+
+        Collections.sort(keys);
+        int ans = 0;
+        int target = arr.length/2;
+        int size = arr.length;
+        for(int i = keys.size()-1; i >= 0; i--) {
+            ans++;
+            size -= keys.get(i);
+            if(size <= target) {
+                return ans;
+            }
+        }
+        return ans;
+    }
+}
+
+```
